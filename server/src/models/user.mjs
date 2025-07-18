@@ -25,6 +25,7 @@ const userSchema = new mongoose.Schema(
       postalCode: { type: String },
       country: { type: String },
     },
+    isAdmin: {type: Boolean, default: false},
   },
   { timestamps: true }
 );

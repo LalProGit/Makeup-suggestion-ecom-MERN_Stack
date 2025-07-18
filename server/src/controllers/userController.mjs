@@ -38,6 +38,7 @@ export const verifyOtpAndCreateUser = async (req,res) => {
             phone,
             skinTone,
             lipColorPreference,
+            isVerified: true,
         })
 
         await otpToken.deleteMany({email});

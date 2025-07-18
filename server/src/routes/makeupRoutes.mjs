@@ -4,6 +4,7 @@ import {
   getAllMakeupProducts,
   getMakeupProductById,
 } from "../controllers/makeupController.mjs";
+import { protect, adminOnly } from "../middleware/authMiddleware.mjs";
 
 const router = express.Router();
 
@@ -14,6 +15,6 @@ router.get("/", getAllMakeupProducts);
 router.get("/:id", getMakeupProductById);
 
 // POST new makeup product (admin)
-router.post("/add", addMakeupProduct);
+router.post("/add", protect, adminOnly, addMakeupProduct);
 
 export default router;
