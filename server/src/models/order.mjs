@@ -31,6 +31,7 @@ const orderSchema = new mongoose.Schema(
     totalPrice: { type: Number, required: true },
     isPaid: { type: Boolean, default: false },
     paidAt: { type: Date },
+    expiresAt: { type: Date, required: true,}
   },
   { timestamps: true }
 );
