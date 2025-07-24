@@ -8,6 +8,8 @@ import authRoutes from './src/routes/authRoutes.mjs';
 import clothingRoutes from './src/routes/clothingRoutes.mjs';
 import makeupRoutes from './src/routes/makeupRoutes.mjs';
 import cartRoutes from './src/routes/cartRoutes.mjs';
+import recommendation from './src/routes/recommendationRoutes.mjs';
+import orderRoutes from './src/routes/orderRoutes.mjs';
 
 dotenv.config();
 
@@ -24,6 +26,8 @@ app.use('/api/auth',authRoutes);
 app.use('/api/clothing', clothingRoutes);
 app.use('/api/makeup', makeupRoutes);
 app.use('/api/cart', cartRoutes);
+app.use('/api/recommend', recommendation);
+app.use('/api/order', orderRoutes);
 
 app.listen(PORT, ()=> {
     console.log(`Running on ${PORT}`)
