@@ -3,7 +3,11 @@ import Makeup from "../models/makeup.mjs";
 // Add new makeup product (admin)
 export const addMakeupProduct = async (req, res) => {
   try {
-    const makeup = await Makeup.create(req.body);
+    const image = req.file?.path;
+    if (!image) {
+      return res.status(400).json({ message: "Image upload failed" });
+    }
+    const makeup = await Makeup.create({ ...req.body, image });
     res.status(201).json({ message: "Makeup product added", makeup });
   } catch (error) {
     res.status(500).json({ message: error.message });

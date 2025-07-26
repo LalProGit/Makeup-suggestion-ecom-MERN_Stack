@@ -3,7 +3,13 @@ import Clothing from "../models/clothing.mjs";
 // Add new clothing item (admin)
 export const addClothing = async (req, res) => {
   try {
-    const clothing = await Clothing.create(req.body);
+    const image = req.file?.path;
+    if(!image) {
+      return res.status(400).json({ message: "Image upload failed" });
+    }
+    console.log("Image uploaded to Cloudinary:", image);
+    console.log("Clothing data:", req.body);
+    const clothing = await Clothing.create({ ...req.body, image });
     res.status(201).json({ message: "Clothing item added", clothing });
   } catch (error) {
     res.status(500).json({ message: error.message });
