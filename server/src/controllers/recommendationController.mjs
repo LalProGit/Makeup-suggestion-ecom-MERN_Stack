@@ -15,11 +15,12 @@ export const getRecommendations = async (req, res) => {
     const clothingColor = clothing.color.toLowerCase();
     const skinTone = req.user?.skinTone || "medium"; // fallback if not present
 
+
+
     const recommendation = await Recommendation.findOne({
       clothingColor,
       skinTone,
     });
-
     if (!recommendation) {
       return res.status(200).json({
         message: "No specific recommendation found",

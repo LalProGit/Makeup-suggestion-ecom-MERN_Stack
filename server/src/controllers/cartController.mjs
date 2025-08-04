@@ -1,4 +1,7 @@
 import Cart from "../models/cart.mjs";
+import Makeup from "../models/makeup.mjs";
+import Clothing from "../models/clothing.mjs";
+
 
 export const addToCart = async (req, res) => {
     const { productId, model, quantity } = req.body;
@@ -32,14 +35,36 @@ export const addToCart = async (req, res) => {
 };
 
 export const getCart = async (req, res) => {
-    try{
-        const cart = await Cart.findOne({user: req.user._id}).populate('items.product');
-        if(!cart) {
-            return res.status(404).json({message: 'Cart is empty'});
+    try {
+        const cart = await Cart.findOne({ user: req.user._id });
+        if (!cart) {
+            return res.status(404).json({ message: 'Cart is empty' });
         }
-        res.status(200).json( cart )
-    }catch(err) {
-        res.status(500).json({message: err.message})
+
+        // Manually populate each item
+        const populatedItems = await Promise.all(
+            cart.items.map(async (item) => {
+                let productDoc = null;
+                if (item.model === "Makeup") {
+                    productDoc = await Makeup.findById(item.product);
+                } else if (item.model === "Clothing") {
+                    productDoc = await Clothing.findById(item.product);
+                }
+                return {
+                    ...item.toObject(),
+                    product: productDoc
+                };
+            })
+        );
+
+        const populatedCart = {
+            ...cart.toObject(),
+            items: populatedItems
+        };
+
+        res.status(200).json(populatedCart);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
     }
 };
 

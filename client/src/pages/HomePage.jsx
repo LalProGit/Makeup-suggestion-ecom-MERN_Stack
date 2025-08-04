@@ -46,6 +46,7 @@ function HomePage() {
   }, [clothingItems, sortOption, filterColor]);
 
 
+
   return (
     <div className="home-container">
       <h2>Clothing Collection</h2>
